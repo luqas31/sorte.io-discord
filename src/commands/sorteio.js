@@ -47,26 +47,36 @@ export const execute = async interaction => {
 		players.sort(() => Math.random() - 0.5);
 		weapons.sort(() => Math.random() - 0.5);
 
-		let resultMessage = '';
 		const playerWeaponMap = new Map();
-
 
 		players.forEach((player, index) => {
 			playerWeaponMap.set(player, [weapons[index]]);
 		});
-
 
 		weapons.slice(players.length).forEach((weapon, index) => {
 			const player = players[index % players.length];
 			playerWeaponMap.get(player).push(weapon);
 		});
 
+		const finalMessages = [];
+		for (const [player, weapons] of playerWeaponMap.entries()) {
+			const message = await interaction.channel.send(`${player} - ${weapons.join(', ')}`);
+			finalMessages.push(message);
+		}
 
-		playerWeaponMap.forEach((weapons, player) => {
-			resultMessage += `${player} ganhou ${weapons.join(', ')}\n`;
-		});
+		try {
+			const messagesToDelete = [];
+			const fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 });
+			fetchedMessages.forEach(message => {
+				if ((message.author.id === interaction.user.id || message.author.bot) && !finalMessages.some(finalMessage => finalMessage.id === message.id)) {
+					messagesToDelete.push(message);
+				}
+			});
 
-		await interaction.followUp(resultMessage);
+			await interaction.channel.bulkDelete(messagesToDelete);
+		} catch (error) {
+			console.error('Erro ao apagar mensagens:', error);
+		}
 	} catch (error) {
 		console.error('Erro ao executar o sorteio:', error);
 		await interaction.followUp('Houve um erro ao processar o sorteio.');
