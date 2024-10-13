@@ -1,5 +1,5 @@
 {
-  "name": "sorte.io",
+  "name": "randomizer-discord",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.16.3",
-    "dotenv": "^16.4.5",
-    "nodemon": "^3.1.7"
+    "dotenv": "^16.4.5"
   }
 }
