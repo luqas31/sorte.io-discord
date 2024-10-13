@@ -1,5 +1,3 @@
-
-
 # sorte.io - Discord bot
 
 This is a Discord bot built with [Discord.js](https://discord.js.org/) and [Node.js](https://nodejs.org/), designed to simplify and speed up the process of randomly assigning weapons in **FiveM**. In competitive FiveM matches, the winning team takes the weapons from the losing team, and this bot helps automatically distribute those weapons to the members of the winning team.
